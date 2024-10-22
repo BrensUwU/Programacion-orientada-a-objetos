@@ -1,0 +1,57 @@
+CREATE DATABASE IF NOT EXISTS Restaurante;
+USE Restaurante;
+
+-- Tabla para almacenar los clientes
+CREATE TABLE IF NOT EXISTS Cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_cliente VARCHAR(100) NOT NULL
+);
+
+-- Tabla para almacenar los platillos disponibles en el menú
+CREATE TABLE IF NOT EXISTS Platillo (
+    id_platillo INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_platillo VARCHAR(100) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL
+);
+
+-- Tabla para almacenar los pedidos realizados
+CREATE TABLE IF NOT EXISTS Pedido (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT,
+    total DECIMAL(10, 2),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente)
+);
+
+-- Tabla intermedia para almacenar los detalles de cada pedido (qué platillos se pidieron y cuántos)
+CREATE TABLE IF NOT EXISTS DetallePedido (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT,
+    id_platillo INT,
+    cantidad INT NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
+    FOREIGN KEY (id_platillo) REFERENCES Platillo(id_platillo)
+);
+
+-- Inserción de datos en la tabla Platillo
+INSERT INTO Platillo (nombre_platillo, precio) VALUES 
+('Rollitos de primavera frescos', 85.0),
+('Gyozas', 50.0),
+('Edamame', 45.0),
+('Sopa miso', 35.0),
+('Tartar de atún', 180.0),
+('Ramen', 150.0),
+('Curry tailandés', 140.0),
+('Pato a la pekinesa', 200.0),
+('Arroz frito especial', 130.0),
+('Sushi variado', 170.0),
+('Mochi helado', 90.0),
+('Tarta de té matcha', 110.0),
+('Panna cotta de coco', 100.0),
+('Frutas frescas', 70.0),
+('Baklava asiático', 90.0),
+('Té helado tailandés', 40.0),
+('Cócteles de sake', 150.0),
+('Limonada de yuzu', 45.0),
+('Cerveza japonesa', 60.0),
+('Smoothie de mango y jengibre', 55.0);
